@@ -21,5 +21,11 @@
     }
 }());
 $(document).ready(function() {
-    $("table.example1").tablesorter();
+    $("table.example1").tablesorter({
+      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 8, order: 'asc'}]
+    });
+
+    /*
+
+    */
 });

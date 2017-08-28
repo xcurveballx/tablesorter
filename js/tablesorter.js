@@ -1,7 +1,7 @@
 
 /**
  * tablesorter.js
- * Simple jquery plugin to sort table data.
+ * Simple jquery plugin to sort tabular data.
  *
  * @license The MIT License, https://github.com/xcurveballx/tablesorter/blob/master/LICENSE
  * @version 1.0
@@ -21,27 +21,43 @@
     };
     $.fn.tablesorter = function(options) {
       var settings = {
-        tablesortTitlesClass: 'js-tsTitles',
-        tablesortGroupClass: 'js-tsGroup',
+        tablesorterTitlesClass: 'tsTitles',
+        tablesorterGroupClass: 'tsGroup',
+        tablesorterColumns: []
       },
       selector = $(this).getSelector();
       settings = $.extend(true, {}, settings, options);
 
-      $("body").on( "click", selector + " ." + settings.tablesortTitlesClass, function(event) {
-        sortTable(event);
-      });
-      function sortTable(event) {
-        var index = getIndex($(event.target)[0]);
-        var type = getType(index);
+      (function() {
+        if(settings.tablesorterColumns.length === 0) return;
+        var cells = $(selector + " ." + settings.tablesorterTitlesClass)[0].cells;
+        for(var i = 0; i < settings.tablesorterColumns.length; i++) {
+          $(cells[settings.tablesorterColumns[i].col]).addClass('sort').data('sortOrder', settings.tablesorterColumns[i].order);
+        }
+        $("body").on( "click", selector + " ." + settings.tablesorterTitlesClass, function(event) {
+          init(event);
+        });
+      })();
+
+      function init(event) {
+        var index = getColIndex($(event.target)[0]);
+        if(!isSortable(index)) return;
+        var type = getValuesType(index);
         if(index === null || (type !== 'number' && type !== 'string')) return;
+        var rows = $(selector + " ." + settings.tablesorterGroupClass + " tr");
+        $(event.target).removeClass($(event.target).data("sortOrder") === 'asc' ? 'desc' : 'asc').addClass($(event.target).data("sortOrder"));
+        sortRows(rows, index, type, $(event.target).data('sortOrder'));
+        $(selector + " ." + settings.tablesorterGroupClass).empty().append(rows);
         toggleASCDESC($(event.target));
-        var rows = $(selector + " ." + settings.tablesortGroupClass + " tr");
-        if(type === 'number') sortRows(rows, index, type, $(event.target).data('sortOrder'));
-        if(type === 'string') sortRows(rows, index, type, $(event.target).data('sortOrder'));
-        $(selector + " ." + settings.tablesortGroupClass).empty().append(rows);
+      }
+      function isSortable(index) {
+        for(var i = 0; i < settings.tablesorterColumns.length; i++) {
+          if(index === settings.tablesorterColumns[i].col) return true;
+        }
+        return false;
       }
       function toggleASCDESC(element) {
-        if(element.data('sortOrder') === undefined || element.data('sortOrder') === 'desc')  element.data('sortOrder', 'asc'); else element.data('sortOrder', 'desc');
+        if(element.data('sortOrder') === 'desc') element.data('sortOrder', 'asc'); else element.data('sortOrder', 'desc');
       }
       function sortRows(rows, index, type, order) {
         rows.sort(function(row1, row2) {
@@ -51,16 +67,14 @@
           if(order === 'desc') return (val2 > val1) ? 1 : (val2 < val1) ? -1 : row1.sectionRowIndex - row2.sectionRowIndex;
         });
       }
-      function getType(index) {
-        return $.isNumeric($(selector + " tr").not("." + settings.tablesortTitlesClass)[0].cells[index].textContent) ? 'number' : 'string';
+      function getValuesType(index) {
+        return $.isNumeric($(selector + " tr").not("." + settings.tablesorterTitlesClass)[0].cells[index].textContent) ? 'number' : 'string';
       }
-      function getIndex(element) {
+      function getColIndex(element) {
         var allElements = element.parentElement.cells, pos = null;
         $.each(allElements, function(index, cell) {
-          if(element === cell) {
-            pos = index;
-            return false;
-          }
+          if(element === cell) pos = index;
+          $(cell).removeClass( "desc asc" );
         });
         return pos;
       }

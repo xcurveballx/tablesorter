@@ -1,2 +1,2 @@
 # tablesorter
-Simple jQuery plugin to sort table data.
+Simple jQuery plugin to sort tabular data.
