@@ -22,44 +22,46 @@
     $.fn.tablesorter = function(options) {
       var settings = {
         tablesorterTitlesClass: 'tsTitles',
-        tablesorterGroupClass: 'tsGroup',
+        tablesorterGroupsClass: 'tsGroup',
         tablesorterColumns: []
       },
-      selector = $(this).getSelector();
       settings = $.extend(true, {}, settings, options);
+      var selector = $(this).getSelector(),
+          ths = " ." + settings.tablesorterTitlesClass,
+          trs = " ." + settings.tablesorterGroupsClass,
+          busy = false;
 
       (function() {
         if(settings.tablesorterColumns.length === 0) return;
-        var cells = $(selector + " ." + settings.tablesorterTitlesClass)[0].cells;
+        var cells = $(selector + ths)[0].cells;
         for(var i = 0; i < settings.tablesorterColumns.length; i++) {
-          $(cells[settings.tablesorterColumns[i].col]).addClass('sort').data('sortOrder', settings.tablesorterColumns[i].order);
+          $(cells[settings.tablesorterColumns[i].col]).addClass('sortable').data('sortOrder', settings.tablesorterColumns[i].order);
         }
-        $("body").on( "click", selector + " ." + settings.tablesorterTitlesClass, function(event) {
+        $("body").on( "click", selector + ths, function(event) {
           init(event);
         });
       })();
 
       function init(event) {
-        var index = getColIndex($(event.target)[0]);
-        if(!isSortable(index)) return;
-        var type = getValuesType(index);
+        if(busy || !$(event.target).hasClass('sortable')) return;
+        toggleBusy();
+        var index = getColIndex($(event.target)[0]),
+            type = getValuesType(index);
         if(index === null || (type !== 'number' && type !== 'string')) return;
-        var rows = $(selector + " ." + settings.tablesorterGroupClass + " tr");
+        var rows = $(selector + trs + " tr");
         $(event.target).removeClass($(event.target).data("sortOrder") === 'asc' ? 'desc' : 'asc').addClass($(event.target).data("sortOrder"));
         sortRows(rows, index, type, $(event.target).data('sortOrder'));
-        $(selector + " ." + settings.tablesorterGroupClass).empty().append(rows);
-        toggleASCDESC($(event.target));
+        $(selector + trs).empty().append(rows);
+        toggleOrder($(event.target));
+        toggleBusy();
       }
-      function isSortable(index) {
-        for(var i = 0; i < settings.tablesorterColumns.length; i++) {
-          if(index === settings.tablesorterColumns[i].col) return true;
-        }
-        return false;
+      function toggleBusy() {
+        if(busy === true) busy = false; else busy = true;
       }
-      function toggleASCDESC(element) {
+      function toggleOrder(element) {
         if(element.data('sortOrder') === 'desc') element.data('sortOrder', 'asc'); else element.data('sortOrder', 'desc');
       }
-      function sortRows(rows, index, type, order) {
+      function sortRows(rows, index, type, order) { 
         rows.sort(function(row1, row2) {
           var val1 = type === 'number' ? parseFloat(row1.cells[index].textContent) : row1.cells[index].textContent,
               val2 = type === 'number' ? parseFloat(row2.cells[index].textContent) : row2.cells[index].textContent;
@@ -68,11 +70,11 @@
         });
       }
       function getValuesType(index) {
-        return $.isNumeric($(selector + " tr").not("." + settings.tablesorterTitlesClass)[0].cells[index].textContent) ? 'number' : 'string';
+        return $.isNumeric($(selector + " tr").not(ths)[0].cells[index].textContent) ? 'number' : 'string';
       }
       function getColIndex(element) {
-        var allElements = element.parentElement.cells, pos = null;
-        $.each(allElements, function(index, cell) {
+        var allths = element.parentElement.cells, pos = null;
+        $.each(allths, function(index, cell) {
           if(element === cell) pos = index;
           $(cell).removeClass( "desc asc" );
         });

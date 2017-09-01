@@ -22,10 +22,6 @@
 }());
 $(document).ready(function() {
     $("table.example1").tablesorter({
-      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 8, order: 'asc'}]
+      tablesorterColumns: [{col: 1, order: 'asc'}] 
     });
-
-    /*
-
-    */
 });

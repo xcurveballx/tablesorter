@@ -107,11 +107,11 @@ textarea {
      color: white;
      font-style: italic;
    }
-   table.ts tr.tsTitles th.sort {
+   table.ts tr.tsTitles th.sortable {
      position: relative;
      cursor: pointer;
    }
-   table.ts tr.tsTitles th.sort:after {
+   table.ts tr.tsTitles th.sortable:after {
      content: '';
      width: 0px;
      height: 0px;
