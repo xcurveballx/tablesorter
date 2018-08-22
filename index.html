@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/tablesorter.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
@@ -22,9 +23,31 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-xs-12 example example1">
+              <header><p><h1>Introduction</h1></p></header>
+              <p><b>TableSorter</b> is a jQuery plugin to sort tabular data in the web UI. It consists of 3 cornerstones - markup requirements, styles and javascript. While styles and javascript parts are provided out of the box, making the right markup is of plugin users' concern. In order for TableSorter to work properly, your table should have the right (very simple though) markup. Make use of <code>tbody</code> and <code>thead</code> elements. The controls row should have <code>tsTitles</code> class:
+                <pre><xmp><thead><tr class="tsTitles">
+<th>#</th><th>FC</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th><th>Pts (%)</th>
+</tr></thead></xmp></pre>
+And the data should be placed inside <code>tsGroup</code> class:
+<pre><xmp><tbody><tr><th colspan="9">Moscow teams</th></tr></tbody>
+<tbody class="tsGroup">
+  <tr><td>1</td><td>Spartak</td><td>30</td><td>22</td><td>3</td><td>5</td><td>19</td><td>69</td><td>76.7</td></tr>
+...
+</tbody></xmp></pre>
+You may want to check the examples below to get the right html markup.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 example example1">
               <header><p><h1>Basic usage</h1></p></header>
               <p></p>
-              <p><pre>$("table.example1").tablesorter();</pre></p>
+              <p><pre>$("table.example1").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 7, order: 'asc'}]});</pre></p>
+              <p>Just select a table and pass in an object with tablesorter  options. The options are:
+              <ul>
+                <li><code>tablesorterColumns</code> - an array of objects describing the indexes and sorting order for the columns that are to be sorted. Indexes start from 0, e.g. column "FC" in the table below has index 1, column "W" has index 3 etc. Sorting order means the order in which the rows will appear after clicking on the controls.</li>
+              </ul>
+              </p>
               <p>
               <div class="table-responsive">
                 <table class="ts example1 table table-striped table-bordered table-hover">
@@ -45,6 +68,51 @@
                     <tr><td>6</td><td>Rostov</td><td>30</td><td>13</td><td>9</td><td>8</td><td>18</td><td>48</td><td>53.3</td></tr>
                     <tr><td>7</td><td>Ufa</td><td>30</td><td>12</td><td>7</td><td>11</td><td>-3</td><td>43</td><td>47.8</td></tr>
                     <tr><td>8</td><td>Lokomotiv</td><td>30</td><td>10</td><td>12</td><td>8</td><td>12</td><td>42</td><td>46.7</td></tr>
+                    <tr><td>9</td><td>Rubin</td><td>30</td><td>10</td><td>8</td><td>12</td><td>-4</td><td>38</td><td>42.2</td></tr>
+                    <tr><td>10</td><td>Amkar</td><td>30</td><td>8</td><td>11</td><td>11</td><td>-4</td><td>35</td><td>38.9</td></tr>
+                    <tr><td>11</td><td>Ural</td><td>30</td><td>8</td><td>6</td><td>16</td><td>-20</td><td>30</td><td>33.3</td></tr>
+                    <tr><td>12</td><td>Anzhi</td><td>30</td><td>7</td><td>9</td><td>14</td><td>-14</td><td>30</td><td>33.3</td></tr>
+                    <tr><td>13</td><td>Orenburg</td><td>30</td><td>7</td><td>9</td><td>14</td><td>-11</td><td>30</td><td>33.3</td></tr>
+                    <tr><td>14</td><td>Arsenal</td><td>30</td><td>7</td><td>7</td><td>16</td><td>-22</td><td>28</td><td>31.1</td></tr>
+                    <tr><td>15</td><td>Krylia Sovetov</td><td>30</td><td>6</td><td>10</td><td>14</td><td>-8</td><td>28</td><td>31.1</td></tr>
+                    <tr><td>16</td><td>Tom</td><td>30</td><td>3</td><td>5</td><td>22</td><td>-47</td><td>14</td><td>15.6</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 example example1">
+              <header><p><h1>Sorting within groups of rows</h1></p></header>
+              <p></p>
+              <p><pre>$("table.example2").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 3, order: 'asc'}]});</pre></p>
+              <p>It is also possible to group rows and sort within the groups. It is worth mentioning that in the markup the controls always should be children of <code>.tsTitles</code> and rows to sort should always be children of <code>.tsGroup</code> (or the class you passed in to the Tablesorter plugin).
+              </p>
+              <p>
+              <div class="table-responsive">
+                <table class="ts example2 table table-striped table-bordered table-hover">
+                  <caption>
+                    Russian Soccer Premier League (Season 2016/2017)
+                  </caption>
+                  <thead>
+                    <tr class="tsTitles">
+                      <th>#</th><th>FC</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th><th>Pts (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody><tr><th colspan="9">Moscow teams</th></tr></tbody>
+                  <tbody class="tsGroup">
+                    <tr><td>1</td><td>Spartak</td><td>30</td><td>22</td><td>3</td><td>5</td><td>19</td><td>69</td><td>76.7</td></tr>
+                    <tr><td>2</td><td>CSKA</td><td>30</td><td>18</td><td>8</td><td>4</td><td>32</td><td>62</td><td>68.9</td></tr>
+                    <tr><td>8</td><td>Lokomotiv</td><td>30</td><td>10</td><td>12</td><td>8</td><td>12</td><td>42</td><td>46.7</td></tr>
+                  </tbody>
+                  <tbody><tr><th colspan="9">Other teams</th></tr></tbody>
+                  <tbody class="tsGroup">
+                    <tr><td>3</td><td>Zenit</td><td>30</td><td>18</td><td>7</td><td>5</td><td>31</td><td>61</td><td>67.8</td></tr>
+                    <tr><td>4</td><td>Krasnodar</td><td>30</td><td>12</td><td>13</td><td>5</td><td>18</td><td>49</td><td>54.4</td></tr>
+                    <tr><td>5</td><td>Terek</td><td>30</td><td>14</td><td>6</td><td>10</td><td>3</td><td>48</td><td>53.3</td></tr>
+                    <tr><td>6</td><td>Rostov</td><td>30</td><td>13</td><td>9</td><td>8</td><td>18</td><td>48</td><td>53.3</td></tr>
+                    <tr><td>7</td><td>Ufa</td><td>30</td><td>12</td><td>7</td><td>11</td><td>-3</td><td>43</td><td>47.8</td></tr>
                     <tr><td>9</td><td>Rubin</td><td>30</td><td>10</td><td>8</td><td>12</td><td>-4</td><td>38</td><td>42.2</td></tr>
                     <tr><td>10</td><td>Amkar</td><td>30</td><td>8</td><td>11</td><td>11</td><td>-4</td><td>35</td><td>38.9</td></tr>
                     <tr><td>11</td><td>Ural</td><td>30</td><td>8</td><td>6</td><td>16</td><td>-20</td><td>30</td><td>33.3</td></tr>
