@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -7,24 +7,17 @@
         <meta name="description" content="Tablesorter - jQuery Plugin">
         <meta name="author" content="xcurveballx">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/tablesorter.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <link rel="stylesheet" href="dst/css/main.css">
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         <header>
           Tablesorter - jQuery Plugin
         </header>
         <div class="container-fluid">
           <div class="row">
-            <div class="col-xs-12 example example1">
+            <div class="col example example1">
               <header><p><h1>Introduction</h1></p></header>
-              <p><b>TableSorter</b> is a jQuery plugin to sort tabular data in the web UI. It consists of 3 cornerstones - markup requirements, styles and javascript. While styles and javascript parts are provided out of the box, making the right markup is of plugin users' concern. In order for TableSorter to work properly, your table should have the right (very simple though) markup. Make use of <code>tbody</code> and <code>thead</code> elements. The controls row should have <code>tsTitles</code> class:
+              <p><b>TableSorter</b> is a jQuery plugin to sort tabular data in the web UI. It consists of 3 cornerstones - markup requirements, styles and javascript. While styles and javascript parts are provided out of the box, making the right markup is of plugin users' concern. In order for TableSorter to work properly, your table should have the right (very simple though) markup. Make use of <code>tbody</code> and <code>thead</code> elements. The table itself should have <code>tablesorter</code> class. The controls row should have <code>tsTitles</code> class:
                 <pre><xmp><thead><tr class="tsTitles">
 <th>#</th><th>FC</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th><th>Pts (%)</th>
 </tr></thead></xmp></pre>
@@ -34,12 +27,12 @@ And the data should be placed inside <code>tsGroup</code> class:
   <tr><td>1</td><td>Spartak</td><td>30</td><td>22</td><td>3</td><td>5</td><td>19</td><td>69</td><td>76.7</td></tr>
 ...
 </tbody></xmp></pre>
-You may want to check the examples below to get the right html markup.
+You may want to check the examples below to get the right html markup. How to import the plugin's components is covered in README.md file inside the package/repo.
               </p>
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12 example example1">
+            <div class="col example example1">
               <header><p><h1>Basic usage</h1></p></header>
               <p></p>
               <p><pre>$("table.example1").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 7, order: 'asc'}]});</pre></p>
@@ -50,7 +43,7 @@ You may want to check the examples below to get the right html markup.
               </p>
               <p>
               <div class="table-responsive">
-                <table class="ts example1 table table-striped table-bordered table-hover">
+                <table class="tablesorter example1 table table-striped table-bordered table-hover">
                   <caption>
                     Russian Soccer Premier League (Season 2016/2017)
                   </caption>
@@ -83,7 +76,7 @@ You may want to check the examples below to get the right html markup.
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12 example example1">
+            <div class="col example example1">
               <header><p><h1>Sorting within groups of rows</h1></p></header>
               <p></p>
               <p><pre>$("table.example2").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 3, order: 'asc'}]});</pre></p>
@@ -91,7 +84,7 @@ You may want to check the examples below to get the right html markup.
               </p>
               <p>
               <div class="table-responsive">
-                <table class="ts example2 table table-striped table-bordered table-hover">
+                <table class="tablesorter example2 table table-striped table-bordered table-hover">
                   <caption>
                     Russian Soccer Premier League (Season 2016/2017)
                   </caption>
@@ -129,9 +122,6 @@ You may want to check the examples below to get the right html markup.
           </div>
         </div>
         <footer>Available under the MIT license. Author - <a href="https://github.com/xcurveballx" target="_blank">xcurveballx</a> (©).</footer>
-        <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84=" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
-        <script src="js/tablesorter.js"></script>
-        <script src="js/main.js"></script>
+        <script src="dst/js/main.js"></script>
     </body>
 </html>

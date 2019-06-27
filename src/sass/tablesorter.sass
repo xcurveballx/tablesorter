@@ -1,0 +1,44 @@
+/**
+ * Commonly used values
+ */
+$transparent-color: transparent
+$default-color: #333
+$default-size: 5px
+$right-offset: 10px
+$zero-size: 0px
+
+/**
+ * Plugin's styles. Feel free to modify as needed
+ */
+table.tablesorter
+  tr.tsTitles
+    th.sortable
+      position: relative
+      cursor: pointer
+
+    th.sortable:after
+      content: ''
+      width: 0px
+      height: 0px
+      background-color: $transparent-color
+      position: absolute
+      right: $right-offset
+      top: 50%
+      margin-top: -$default-size
+      border-left: $default-size solid $default-color
+      border-right: $default-size solid $transparent-color
+      border-top: $default-size solid $transparent-color
+      border-bottom: $default-size solid $transparent-color
+
+    th.desc:after, th.asc:after
+      margin-top: - $default-size / 2
+      border-left: $default-size solid $transparent-color
+      border-right: $default-size solid $transparent-color
+
+    th.desc:after
+      border-top: $default-size solid $default-color
+      border-bottom: $zero-size solid $transparent-color
+
+    th.asc:after
+      border-top: $zero-size solid $transparent-color
+      border-bottom: $default-size solid $default-color

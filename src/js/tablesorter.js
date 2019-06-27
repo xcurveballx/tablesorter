@@ -1,23 +1,41 @@
 /**
- * tablesorter.js
- * Simple jquery plugin to sort tabular data.
+ * Plugin's dependency jquery
+ */
+var $ = require("jquery");
+
+/**
+ * Tablesorter - simple jQuery plugin to sort tabular data.
  *
- * @license The MIT License, https://github.com/xcurveballx/tablesorter/blob/master/LICENSE
- * @version 1.1
- * @author  xcurveballx, https://github.com/xcurveballx
- * @updated 2018-08-23
- * @link    https://github.com/xcurveballx/tablesorter
+ * @author Curveball <x.curveball.x@gmail.com>
+ * @license MIT
  *
  */
 (function($, window, document, undefined) {
     "use strict";
     $.fn._init = $.fn.init;
+
+    /**
+     * Makes possible to get selector string later.
+     * Wrapper around original init function.
+     * @returns {undefined}
+     */
     $.fn.init = function(selector, context, root) {
         return (typeof selector === 'string') ? new $.fn._init(selector, context, root).data('selector', selector) : new $.fn._init(selector, context, root);
     };
+
+    /**
+     * Gets selector string passed to the plugin.
+     * @returns {string} selector string passed to the plugin.
+     */
     $.fn.getSelector = function() {
         return $(this).data('selector');
     };
+
+    /**
+     * Sets the plugin and makes it chainable by returning `this`.
+     * @this collection of matched elements.
+     * @returns {object} returns collection of matched elements.
+     */
     $.fn.tablesorter = function(options) {
 
         var settings = {
@@ -38,6 +56,11 @@
             curElem = null,
             busy = false;
 
+        /**
+         * Handles clicks on columns' headers. Does some checks
+         * and invokes row sorting.
+         * @returns {undefined}
+         */
         function tablesorter(event) {
             if(busy || !$(event.target).hasClass('sortable')) return;
             toggleBusyFlag();
@@ -55,14 +78,30 @@
             toggleBusyFlag();
         }
 
+        /**
+         * Toggles plugin's busy flag.
+         * @returns {undefined}
+         */
         function toggleBusyFlag() {
             busy = busy === true ? false : true;
         }
 
+        /**
+         * Toggles column's sorting order flag.
+         * @returns {undefined}
+         */
         function toggleSortingOrderForCol() {
-            if(curElem.data('sortOrder') === 'desc') curElem.data('sortOrder', 'asc'); else curElem.data('sortOrder', 'desc');
+            if(curElem.data('sortOrder') === 'desc') {
+                curElem.data('sortOrder', 'asc');
+            } else {
+                curElem.data('sortOrder', 'desc');
+            }
         }
 
+        /**
+         * Sorts table rows.
+         * @returns {undefined}
+         */
         function sortRows() {
             var rowBlocks = $(selector + trs);
             $.each(rowBlocks, function(index, rowBlock) {
@@ -76,6 +115,12 @@
             });
         }
 
+        /**
+         * Sorting function. Compares two rows' cells with numeric content.
+         * @param {HTMLTableRowElement} one row object
+         * @param {HTMLTableRowElement} another row object
+         * @returns {number} number, depending on what value is greater given the sorting order.
+         */
         function sortAsNumbers(rowA, rowB) {
             var valA = parseFloat(rowA.cells[curIndex].textContent),
                 valB = parseFloat(rowB.cells[curIndex].textContent);
@@ -83,6 +128,12 @@
             if(curOrder === 'desc') return (valB > valA) ? 1 : (valB < valA) ? -1 : rowA.sectionRowIndex - rowB.sectionRowIndex;
         }
 
+        /**
+         * Sorting function. Compares two rows' cells with textual content.
+         * @param {HTMLTableRowElement} one row object
+         * @param {HTMLTableRowElement} another row object
+         * @returns {number} number, depending on what value is greater given the sorting order.
+         */
         function sortAsStrings(rowA, rowB) {
             var valA = rowA.cells[curIndex].textContent,
                 valB = rowB.cells[curIndex].textContent;
@@ -90,10 +141,18 @@
             if(curOrder === 'desc') return (valB > valA) ? 1 : (valB < valA) ? -1 : rowA.sectionRowIndex - rowB.sectionRowIndex;
         }
 
+        /**
+         * Gets column values' datatype.
+         * @returns {string} column values' datatype.
+         */
         function getValuesType() {
             return $.isNumeric($(selector + trs + " tr")[0].cells[curIndex].textContent) ? 'number' : 'string';
         }
 
+        /**
+         * Gets column's index.
+         * @returns {number} column's index.
+         */
         function getColIndex() {
             var allths = curElem[0].parentElement.cells, colIndex = null;
             $.each(allths, function(index, cell) {
@@ -115,4 +174,4 @@
 
         return this;
     };
-})(jQuery, window, document);
+})($, window, document);
