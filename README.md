@@ -31,4 +31,4 @@ $("table.example1").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {
 
 ## More examples
 
-More examples in action and more detailed explanation can be found on [codepen](https://codepen.io/curveball/full/yxewyO) or example.html page inside this package.
+More examples in action and more detailed explanation can be found on [codepen](https://codepen.io/curveball/full/yxewyO) or [example page](../example.html) inside this package.
