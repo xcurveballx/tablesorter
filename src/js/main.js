@@ -8,6 +8,6 @@ $(document).ready(function() {
     });
 
     $("table.example2").tablesorter({
-      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 3, order: 'asc'}]
+      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 1, order: 'desc'}]
     });
 });

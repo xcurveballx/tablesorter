@@ -10609,19 +10609,22 @@ $(document).ready(function() {
     });
 
     $("table.example2").tablesorter({
-      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 3, order: 'asc'}]
+      tablesorterColumns: [{col: 0, order: 'desc'}, {col: 1, order: 'desc'}]
     });
 });
 
 },{"./tablesorter.js":3,"jquery":1}],3:[function(require,module,exports){
-/**
- * Plugin's dependency jquery
+/***
+ * The only plugin's dependency - jQuery. It is required before
+ * creating the plugin.
  */
-var $ = require("jquery");
+var jQuery = require("jquery");
 
 /**
- * Tablesorter - simple jQuery plugin to sort tabular data.
- *
+ * There is an IIFE around the plugin.
+ * The IIFE contains several helper functions.
+ * The plugin gets assigned to `$.fn.tablesorter`.
+ * @namespace TablesorterIIFE
  * @author Curveball <x.curveball.x@gmail.com>
  * @license MIT
  *
@@ -10631,9 +10634,13 @@ var $ = require("jquery");
     $.fn._init = $.fn.init;
 
     /**
-     * Makes possible to get selector string later.
-     * Wrapper around original init function.
-     * @returns {undefined}
+     * Makes possible to get selector string later by attaching it to the jQuery object.
+     * Wrapper around original init() function.
+     * @function TablesorterIIFE~init
+     * @param {string|*} selector selector string
+     * @param {object} context an object serving as context for selectors search. The match will be searched for in its children instead of the entire page.
+     * @param {object} root usually $(document).
+     * @returns {object} a jQuery object
      */
     $.fn.init = function(selector, context, root) {
         return (typeof selector === 'string') ? new $.fn._init(selector, context, root).data('selector', selector) : new $.fn._init(selector, context, root);
@@ -10641,6 +10648,7 @@ var $ = require("jquery");
 
     /**
      * Gets selector string passed to the plugin.
+     * @function TablesorterIIFE~getSelector
      * @returns {string} selector string passed to the plugin.
      */
     $.fn.getSelector = function() {
@@ -10648,18 +10656,17 @@ var $ = require("jquery");
     };
 
     /**
-     * Sets the plugin and makes it chainable by returning `this`.
-     * @this collection of matched elements.
+     * The plugin function assigned to `$.fn.tablesorter`.
+     * Below go inner helper functions inside the plugin.
+     * @namespace Tablesorter
+     * @author Curveball <x.curveball.x@gmail.com>
+     * @license MIT
+     * @param {object.<string, *>} [options] object passed to the plugin upon calling
      * @returns {object} returns collection of matched elements.
      */
     $.fn.tablesorter = function(options) {
 
-        var settings = {
-            tablesorterTitlesClass: 'tsTitles',
-            tablesorterGroupsClass: 'tsGroup',
-            tablesorterColumns: []
-        };
-        settings = $.extend(true, {}, settings, options);
+        var settings = $.extend({}, $.fn.tablesorter.settings, options);
 
         var selector = $(this).getSelector(),
             ths = " ." + settings.tablesorterTitlesClass,
@@ -10673,8 +10680,9 @@ var $ = require("jquery");
             busy = false;
 
         /**
-         * Handles clicks on columns' headers. Does some checks
-         * and invokes row sorting.
+         * Handles clicks on columns' headers. Does some checks and invokes row sorting.
+         * @function Tablesorter~tablesorter
+         * @param {MouseEvent} event event object corresponding to click on controls
          * @returns {undefined}
          */
         function tablesorter(event) {
@@ -10696,6 +10704,7 @@ var $ = require("jquery");
 
         /**
          * Toggles plugin's busy flag.
+         * @function Tablesorter~toggleBusyFlag
          * @returns {undefined}
          */
         function toggleBusyFlag() {
@@ -10704,6 +10713,7 @@ var $ = require("jquery");
 
         /**
          * Toggles column's sorting order flag.
+         * @function Tablesorter~toggleSortingOrderForCol
          * @returns {undefined}
          */
         function toggleSortingOrderForCol() {
@@ -10716,25 +10726,27 @@ var $ = require("jquery");
 
         /**
          * Sorts table rows.
+         * @function Tablesorter~sortRows
          * @returns {undefined}
          */
         function sortRows() {
-            var rowBlocks = $(selector + trs);
-            $.each(rowBlocks, function(index, rowBlock) {
-                var rows = $(rowBlock).find("tr");
+            var rowsBlocks = $(selector + trs);
+            $.each(rowsBlocks, function(index, rowsBlock) {
+                var rows = $(rowsBlock).find("tr");
                 if(curType === 'number') {
                     rows.sort(sortAsNumbers);
                 } else {
                     rows.sort(sortAsStrings);
                 }
-                $(rowBlock).empty().append(rows);
+                $(rowsBlock).empty().append(rows);
             });
         }
 
         /**
          * Sorting function. Compares two rows' cells with numeric content.
-         * @param {HTMLTableRowElement} one row object
-         * @param {HTMLTableRowElement} another row object
+         * @function Tablesorter~sortAsNumbers
+         * @param {HTMLTableRowElement} rowA one row object
+         * @param {HTMLTableRowElement} rowB another row object
          * @returns {number} number, depending on what value is greater given the sorting order.
          */
         function sortAsNumbers(rowA, rowB) {
@@ -10746,8 +10758,9 @@ var $ = require("jquery");
 
         /**
          * Sorting function. Compares two rows' cells with textual content.
-         * @param {HTMLTableRowElement} one row object
-         * @param {HTMLTableRowElement} another row object
+         * @function Tablesorter~sortAsStrings
+         * @param {HTMLTableRowElement} rowA one row object
+         * @param {HTMLTableRowElement} rowB another row object
          * @returns {number} number, depending on what value is greater given the sorting order.
          */
         function sortAsStrings(rowA, rowB) {
@@ -10759,6 +10772,7 @@ var $ = require("jquery");
 
         /**
          * Gets column values' datatype.
+         * @function Tablesorter~getValuesType
          * @returns {string} column values' datatype.
          */
         function getValuesType() {
@@ -10767,6 +10781,7 @@ var $ = require("jquery");
 
         /**
          * Gets column's index.
+         * @function Tablesorter~getColIndex
          * @returns {number} column's index.
          */
         function getColIndex() {
@@ -10790,6 +10805,14 @@ var $ = require("jquery");
 
         return this;
     };
-})($, window, document);
+
+    /*** Plugin's default settings*/
+    $.fn.tablesorter.settings = {
+        tablesorterTitlesClass: 'tsTitles',
+        tablesorterGroupsClass: 'tsGroup',
+        tablesorterColumns: []
+    };
+
+})(jQuery, window, document);
 
 },{"jquery":1}]},{},[2]);

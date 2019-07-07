@@ -4,23 +4,26 @@
   "description": "A jQuery plugin to sort tabular data on the webpages.",
   "main": "src/js/tablesorter.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000 tablesorter.test.js || true",
+    "docgen": "jsdoc src/js/tablesorter.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -t ./node_modules/ink-docstrap/template -d ./docs -R README.md && git add -A",
+    "preversion": "",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xcurveballx/tablesorter.git"
   },
   "keywords": [
-    "jquery",
-    "plugin",
+    "jquery-plugin",
     "browser",
+    "ui",
     "tablesorter",
     "sort",
     "tabular",
     "data",
     "tables",
     "columns",
-    "ui"
+    "rows"
   ],
   "author": "curveball",
   "license": "MIT",
@@ -34,6 +37,7 @@
   "devDependencies": {
     "bootstrap": "^4.3.1",
     "browserify": "^16.2.3",
+    "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-cached": "^1.1.1",
@@ -45,9 +49,11 @@
     "gulp-sequence": "^1.0.0",
     "ink-docstrap": "^1.3.2",
     "jsdoc": "^3.6.2",
+    "mocha": "^6.1.4",
     "node-sass": "^4.12.0",
     "path": "^0.12.7",
     "pump": "^3.0.0",
+    "puppeteer": "^1.18.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }

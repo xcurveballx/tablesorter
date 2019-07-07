@@ -2,7 +2,7 @@
  * The only plugin's dependency - jQuery. It is required before
  * creating the plugin.
  */
-var $ = require("jquery");
+var jQuery = require("jquery");
 
 /**
  * There is an IIFE around the plugin.
@@ -50,12 +50,7 @@ var $ = require("jquery");
      */
     $.fn.tablesorter = function(options) {
 
-        var settings = {
-            tablesorterTitlesClass: 'tsTitles',
-            tablesorterGroupsClass: 'tsGroup',
-            tablesorterColumns: []
-        };
-        settings = $.extend(true, {}, settings, options);
+        var settings = $.extend({}, $.fn.tablesorter.settings, options);
 
         var selector = $(this).getSelector(),
             ths = " ." + settings.tablesorterTitlesClass,
@@ -119,15 +114,15 @@ var $ = require("jquery");
          * @returns {undefined}
          */
         function sortRows() {
-            var rowBlocks = $(selector + trs);
-            $.each(rowBlocks, function(index, rowBlock) {
-                var rows = $(rowBlock).find("tr");
+            var rowsBlocks = $(selector + trs);
+            $.each(rowsBlocks, function(index, rowsBlock) {
+                var rows = $(rowsBlock).find("tr");
                 if(curType === 'number') {
                     rows.sort(sortAsNumbers);
                 } else {
                     rows.sort(sortAsStrings);
                 }
-                $(rowBlock).empty().append(rows);
+                $(rowsBlock).empty().append(rows);
             });
         }
 
@@ -194,4 +189,12 @@ var $ = require("jquery");
 
         return this;
     };
-})($, window, document);
+
+    /*** Plugin's default settings*/
+    $.fn.tablesorter.settings = {
+        tablesorterTitlesClass: 'tsTitles',
+        tablesorterGroupsClass: 'tsGroup',
+        tablesorterColumns: []
+    };
+
+})(jQuery, window, document);

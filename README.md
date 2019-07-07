@@ -23,12 +23,16 @@ or just indicate the full path inside sass `@import` statement.
 
 ## Usage
 
-In this simple case the 1st and 8st columns of the table will become "sortable" with indicated initial sorting order. In other words, after clicking, for example, on the 1st column's header the table rows will be sorted by the 1st column values in the given order (desc).
+The table itself must have `tablesorter` class. The control row (`<tr>` with `<th>`-s) should have `tsTitles` class (customizable via settings) and the data should be placed inside `<tbody>` with `tsGroup` class (customizable via settings). In this simple case the 1st and 8st columns of the table will become "sortable" with indicated initial sorting order. In other words, after clicking, for example, on the 1st column's header the table rows will be sorted by the 1st column values in the given order (desc).
 
 ```js
 $("table.example1").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 7, order: 'asc'}]});
 ```
 
+## Settings
+
+Besides `tablesorterColumns`, it is possible, as mentioned above, to pass into the plugin `tablesorterTitlesClass` (defaults to 'tsTitles') and  `tablesorterGroupsClass` (defaults to 'tsGroup') settings with corresponding changes in the page markup.
+
 ## More examples
 
-More examples in action and more detailed explanation can be found on [codepen](https://codepen.io/curveball/full/yxewyO) or [example page](../example.html) inside this package.
+Examples in action and more detailed explanation can be found on [codepen](https://codepen.io/curveball/full/yxewyO) or [example page](../example.html) inside this package.

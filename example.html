@@ -17,11 +17,11 @@
           <div class="row">
             <div class="col example example1">
               <header><p><h1>Introduction</h1></p></header>
-              <p><b>TableSorter</b> is a jQuery plugin to sort tabular data in the web UI. It consists of 3 cornerstones - markup requirements, styles and javascript. While styles and javascript parts are provided out of the box, making the right markup is of plugin users' concern. In order for TableSorter to work properly, your table should have the right (very simple though) markup. Make use of <code>tbody</code> and <code>thead</code> elements. The table itself should have <code>tablesorter</code> class. The controls row should have <code>tsTitles</code> class:
+              <p><b>TableSorter</b> is a jQuery plugin to sort tabular data in the web UI. It consists of 3 cornerstones - markup requirements, styles and javascript. While styles and javascript parts are provided out of the box, making the right markup is of plugin users' concern. In order for TableSorter to work properly, your table should have the right (very simple though) markup. Make use of <code>tbody</code> and <code>thead</code> elements. The table itself must have <code>tablesorter</code> class. The controls row should have <code>tsTitles</code> class (customizable via settings):
                 <pre><xmp><thead><tr class="tsTitles">
 <th>#</th><th>FC</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th><th>Pts (%)</th>
 </tr></thead></xmp></pre>
-And the data should be placed inside <code>tsGroup</code> class:
+And the data should be placed inside <code>tsGroup</code> class (customizable via settings):
 <pre><xmp><tbody><tr><th colspan="9">Moscow teams</th></tr></tbody>
 <tbody class="tsGroup">
   <tr><td>1</td><td>Spartak</td><td>30</td><td>22</td><td>3</td><td>5</td><td>19</td><td>69</td><td>76.7</td></tr>
@@ -36,9 +36,11 @@ You may want to check the examples below to get the right html markup. How to im
               <header><p><h1>Basic usage</h1></p></header>
               <p></p>
               <p><pre>$("table.example1").tablesorter({tablesorterColumns: [{col: 0, order: 'desc'}, {col: 7, order: 'asc'}]});</pre></p>
-              <p>Just select a table and pass in an object with tablesorter  options. The options are:
+              <p>Just select a table and pass in an object with tablesorter settings. The settings are:
               <ul>
                 <li><code>tablesorterColumns</code> - an array of objects describing the indexes and sorting order for the columns that are to be sorted. Indexes start from 0, e.g. column "FC" in the table below has index 1, column "W" has index 3 etc. Sorting order means the order in which the rows will appear after clicking on the controls.</li>
+                <li><code>tablesorterTitlesClass</code> - class name for control row, defaults to 'tsTitles'.</li>
+                <li><code>tablesorterGroupsClass</code> - class name for rows container (usually tbody-tag), defaults to 'tsGroup'.</li>
               </ul>
               </p>
               <p>
