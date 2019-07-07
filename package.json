@@ -5,9 +5,10 @@
   "main": "src/js/tablesorter.js",
   "scripts": {
     "test": "mocha --timeout 10000 tablesorter.test.js || true",
-    "docgen": "jsdoc src/js/tablesorter.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -t ./node_modules/ink-docstrap/template -d ./docs -R README.md && git add -A",
-    "preversion": "",
-    "postversion": "git push && git push --tags"
+    "doc": "jsdoc src/js/tablesorter.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -t ./node_modules/ink-docstrap/template -d ./docs -R README.md",
+    "preversion": "npm test",
+    "version": "npm run doc && git add -A",
+    "postversion": "git push && git push --tags && npm publish --access public"
   },
   "repository": {
     "type": "git",
