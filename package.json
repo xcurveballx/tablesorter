@@ -1,6 +1,6 @@
 {
   "name": "@curveballerpacks/tablesorter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A jQuery plugin to sort tabular data on the webpages.",
   "main": "src/js/tablesorter.js",
   "scripts": {
